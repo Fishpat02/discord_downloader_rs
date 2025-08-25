@@ -1,2 +1,10 @@
+# Editor configurations
+.vscode/
+.idea/
+.trunk/
+
+# Build artifacts
 /target
+
+# Dev credentials
 .env
