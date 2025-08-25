@@ -22,9 +22,9 @@ async fn main() -> Result<(), Error> {
         .framework(framework)
         .await?;
 
-    let commands = (&client).http.get_global_commands().await?;
+    let commands = client.http.get_global_commands().await?;
     for cmd in commands {
-        (&client).http.delete_global_command(cmd.id).await?;
+        client.http.delete_global_command(cmd.id).await?;
     }
 
     Ok(())
