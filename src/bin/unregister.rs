@@ -8,19 +8,11 @@ async fn main() -> Result<(), Error> {
     let token = dotenvy::var("TOKEN")?;
     let intents = serenity::GatewayIntents::all();
 
-    let framework = poise::Framework::builder()
-        .setup(|_ctx, _ready, _framework: &poise::Framework<Data, Error>| {
-            Box::pin(async move { Ok(Data {}) })
-        })
-        .options(poise::FrameworkOptions::default())
-        .build();
+    let app_id = serenity::ApplicationId::new(dotenvy::var("CLIENT")?.parse::<u64>()?);
+    let http = serenity::Http::new(&token);
+    http.set_application_id(app_id);
 
-    let client = serenity::ClientBuilder::new(token, intents)
-        .application_id(serenity::ApplicationId::new(
-            dotenvy::var("CLIENT")?.parse::<u64>()?,
-        ))
-        .framework(framework)
-        .await?;
+    let client = serenity::ClientBuilder::new_with_http(http, intents).await?;
 
     let commands = client.http.get_global_commands().await?;
     for cmd in commands {
