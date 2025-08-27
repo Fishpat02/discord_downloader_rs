@@ -1,4 +1,5 @@
 pub mod commands;
+mod handlers;
 mod utils;
 
 use commands::*;
@@ -26,6 +27,7 @@ async fn main() -> Result<(), Error> {
 
     let client = serenity::ClientBuilder::new(token, intents)
         .framework(framework)
+        .event_handler(handlers::ReadyHandler)
         .await;
 
     Ok(client.unwrap().start().await?)
