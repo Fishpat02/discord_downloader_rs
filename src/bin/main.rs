@@ -1,5 +1,5 @@
 use discord_scraper::*;
-use poise::serenity_prelude as serenity;
+use serenity::all as serenity;
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {

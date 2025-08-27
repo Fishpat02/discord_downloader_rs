@@ -1,4 +1,4 @@
-use poise::serenity_prelude as serenity;
+use serenity::all as serenity;
 
 pub struct Data {}
 pub type Error = Box<dyn std::error::Error + Send + Sync>;
