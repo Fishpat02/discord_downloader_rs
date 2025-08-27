@@ -1,6 +1,7 @@
 use crate::commands::*;
 use serenity::all as serenity;
 
+#[allow(dead_code)]
 async fn unregister() -> Result<(), Error> {
     dotenvy::dotenv()?;
 
