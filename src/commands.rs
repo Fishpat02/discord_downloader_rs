@@ -1,8 +1,8 @@
 use serenity::all as serenity;
 
-pub struct Data {}
-pub type Error = Box<dyn std::error::Error + Send + Sync>;
-pub type Context<'a> = poise::Context<'a, Data, Error>;
+pub(crate) struct Data {}
+pub(crate) type Error = Box<dyn std::error::Error + Send + Sync>;
+pub(crate) type Context<'a> = poise::Context<'a, Data, Error>;
 
 #[poise::command(slash_command)]
 pub async fn age(

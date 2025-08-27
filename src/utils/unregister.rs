@@ -1,8 +1,7 @@
-use discord_scraper::*;
+use crate::commands::*;
 use serenity::all as serenity;
 
-#[tokio::main]
-async fn main() -> Result<(), Error> {
+async fn unregister() -> Result<(), Error> {
     dotenvy::dotenv()?;
 
     let token = dotenvy::var("TOKEN")?;
