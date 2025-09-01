@@ -4,7 +4,7 @@ pub(crate) struct Data {}
 pub(crate) type Error = Box<dyn std::error::Error + Send + Sync>;
 pub(crate) type Context<'a> = poise::Context<'a, Data, Error>;
 
-#[poise::command(slash_command)]
+#[poise::command(slash_command, ephemeral)]
 pub async fn age(
     ctx: Context<'_>,
     #[description = "Selected user"] user: Option<serenity::User>,
