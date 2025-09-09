@@ -3,10 +3,35 @@ name = "discord_scraper"
 version = "0.1.0"
 edition = "2024"
 
+[features]
+default = ["bot"]
+bot = ["dep:serenity"]
+self-bot = ["dep:serenity_self"]
+
 [dependencies]
 dotenvy = "0.15.7"
 image = "0.25.6"
-poise = "0.6.1"
-serenity = "0.12.4"
+serenity_self = { version = "0.13.*", optional = true, default-features = false, features = [
+    "builder",
+    "cache",
+    "chrono",
+    "client",
+    "gateway",
+    "model",
+    "http",
+    "utils",
+    "rustls_backend"
+] }
+serenity = { version = "0.12.*", optional = true, default-features = false, features = [
+    "builder",
+    "cache",
+    "chrono",
+    "client",
+    "gateway",
+    "model",
+    "http",
+    "utils",
+    "rustls_backend"
+] }
 sqlx = "0.8.6"
 tokio = { version = "1.47.1", features = ["rt-multi-thread"] }
