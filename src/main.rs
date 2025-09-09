@@ -19,9 +19,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let token = dotenvy::var("TOKEN")?;
     let intents = serenity::GatewayIntents::non_privileged();
 
-    let client = serenity::ClientBuilder::new(token, intents)
+    let mut client = serenity::ClientBuilder::new(token, intents)
         .event_handler(handlers::CustomHandler)
-        .await;
+        .await
+        .unwrap();
 
-    Ok(client.unwrap().start().await?)
+    Ok(client.start().await?)
 }
