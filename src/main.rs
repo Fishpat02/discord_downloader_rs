@@ -7,8 +7,10 @@ use serenity::all as serenity;
 #[cfg(feature = "self-bot")]
 use serenity_self::all as serenity;
 
+pub(crate) type Error = Box<dyn std::error::Error>;
+
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+async fn main() -> Result<(), Error> {
     if cfg!(all(feature = "bot", feature = "self-bot")) {
         panic!(
             "Feature 'bot' is incompatible with feature 'self-bot'. Please disable one of these features."
@@ -16,7 +18,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
     dotenvy::dotenv()?;
 
+    #[cfg(feature = "bot")]
     let token = dotenvy::var("TOKEN")?;
+    #[cfg(feature = "self-bot")]
+    let token = dotenvy::var("USER_TOKEN")?;
+
     let intents = serenity::GatewayIntents::non_privileged();
 
     let mut client = serenity::ClientBuilder::new(token, intents)

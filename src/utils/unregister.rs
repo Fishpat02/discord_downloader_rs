@@ -4,8 +4,10 @@ use serenity::all as serenity;
 #[cfg(feature = "self-bot")]
 use serenity_self::all as serenity;
 
+use crate::Error;
+
 #[allow(dead_code)]
-async fn unregister() -> Result<(), Box<dyn std::error::Error>> {
+pub async fn unregister() -> Result<(), Error> {
     dotenvy::dotenv()?;
 
     let token = dotenvy::var("TOKEN")?;
