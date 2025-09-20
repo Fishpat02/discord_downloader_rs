@@ -2,13 +2,24 @@ mod handlers;
 mod rest;
 mod utils;
 
+use serde::Deserialize;
 #[cfg(feature = "bot")]
 use serenity::all as serenity;
-
 #[cfg(feature = "self-bot")]
 use serenity_self::all as serenity;
 
 pub(crate) type Error = Box<dyn std::error::Error + Send + Sync>;
+
+#[derive(Debug, Deserialize)]
+struct ChannelConfig {
+    id: u64,
+    save_location: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct Config {
+    channels: Vec<ChannelConfig>,
+}
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
