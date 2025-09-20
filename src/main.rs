@@ -11,11 +11,6 @@ pub(crate) type Error = Box<dyn std::error::Error + Send + Sync>;
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    if cfg!(all(feature = "bot", feature = "self-bot")) {
-        panic!(
-            "Feature 'bot' is incompatible with feature 'self-bot'. Please disable one of these features."
-        );
-    }
     dotenvy::dotenv()?;
 
     #[cfg(feature = "bot")]
