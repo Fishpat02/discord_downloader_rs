@@ -27,5 +27,14 @@ async fn main() -> Result<(), Error> {
         .await
         .unwrap();
 
+    let shard_manager = client.shard_manager.clone();
+
+    tokio::spawn(async move {
+        tokio::signal::ctrl_c()
+            .await
+            .expect("Couldn't register ctrl+c");
+        shard_manager.shutdown_all().await;
+    });
+
     Ok(client.start().await?)
 }
