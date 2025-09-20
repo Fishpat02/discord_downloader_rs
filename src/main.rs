@@ -7,7 +7,7 @@ use serenity::all as serenity;
 #[cfg(feature = "self-bot")]
 use serenity_self::all as serenity;
 
-pub(crate) type Error = Box<dyn std::error::Error>;
+pub(crate) type Error = Box<dyn std::error::Error + Send + Sync>;
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
