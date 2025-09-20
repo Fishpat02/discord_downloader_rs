@@ -32,6 +32,12 @@ async fn main() -> Result<(), Error> {
     #[cfg(feature = "self-bot")]
     let token = dotenvy::var("USER_TOKEN")?;
 
+    #[cfg(feature = "self-bot")]
+    println!(concat!(
+        "Be aware that running a bot application on a user account is againt Discord TOS.\n",
+        "Proceed at your own risk!!"
+    ));
+
     let intents = GatewayIntents::DIRECT_MESSAGES
         | GatewayIntents::GUILD_MESSAGES
         | GatewayIntents::MESSAGE_CONTENT;
