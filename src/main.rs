@@ -1,4 +1,5 @@
 mod handlers;
+mod rest;
 mod utils;
 
 #[cfg(feature = "bot")]
