@@ -18,7 +18,9 @@ async fn main() -> Result<(), Error> {
     #[cfg(feature = "self-bot")]
     let token = dotenvy::var("USER_TOKEN")?;
 
-    let intents = serenity::GatewayIntents::non_privileged();
+    let intents = serenity::GatewayIntents::DIRECT_MESSAGES
+        | serenity::GatewayIntents::GUILD_MESSAGES
+        | serenity::GatewayIntents::MESSAGE_CONTENT;
 
     let mut client = serenity::ClientBuilder::new(token, intents)
         .event_handler(handlers::CustomHandler)
