@@ -8,16 +8,18 @@ use crate::Error;
 
 #[allow(dead_code)]
 pub async fn unregister() -> Result<(), Error> {
+    use serenity::{ApplicationId, ClientBuilder, GatewayIntents, Http};
+
     dotenvy::dotenv()?;
 
     let token = dotenvy::var("TOKEN")?;
-    let intents = serenity::GatewayIntents::all();
+    let intents = GatewayIntents::all();
 
-    let app_id = serenity::ApplicationId::new(dotenvy::var("CLIENT")?.parse::<u64>()?);
-    let http = serenity::Http::new(&token);
+    let app_id = ApplicationId::new(dotenvy::var("CLIENT")?.parse::<u64>()?);
+    let http = Http::new(&token);
     http.set_application_id(app_id);
 
-    let client = serenity::ClientBuilder::new_with_http(http, intents).await?;
+    let client = ClientBuilder::new_with_http(http, intents).await?;
 
     let commands = client.http.get_global_commands().await?;
     for cmd in commands {
