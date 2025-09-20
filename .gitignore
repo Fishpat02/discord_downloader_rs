@@ -8,3 +8,6 @@
 
 # Dev credentials
 .env
+
+# Runtime files
+config.*
