@@ -497,6 +497,7 @@ dependencies = [
  "serenity_self",
  "sqlx",
  "tokio",
+ "tokio-util",
  "toml 0.9.7",
 ]
 
