@@ -39,6 +39,12 @@ async fn main() -> Result<(), Error> {
         "Proceed at your own risk!!"
     ));
 
+    let config: Config = toml::from_str(
+        std::fs::read_to_string("config.toml")
+            .expect("couldn't read config")
+            .as_str(),
+    )?;
+
     let cancel_token = CancellationToken::new();
 
     let intents = GatewayIntents::DIRECT_MESSAGES
