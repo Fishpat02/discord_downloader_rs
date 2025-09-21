@@ -7,15 +7,17 @@ use serenity_self::all as serenity;
 use crate::Error;
 use serenity::{Channel, ChannelId, Http, Message, MessagePagination};
 use std::sync::Arc;
+use tokio_util::sync::CancellationToken;
 
 pub struct MessageLogger {
     http: Arc<Http>,
+    ct: Option<CancellationToken>,
 }
 
 impl MessageLogger {
     #[allow(dead_code)]
-    pub fn new(http: Arc<Http>) -> Self {
-        MessageLogger { http: http }
+    pub fn new(http: Arc<Http>, ct: Option<CancellationToken>) -> Self {
+        MessageLogger { http: http, ct: ct }
     }
 
     #[allow(dead_code)]
@@ -23,6 +25,12 @@ impl MessageLogger {
         let mut channels = vec![];
 
         for id in ids {
+            if let Some(token) = &self.ct {
+                if token.is_cancelled() {
+                    break;
+                }
+            }
+
             channels.push(self.http.get_channel(id).await?);
         }
 
@@ -35,6 +43,12 @@ impl MessageLogger {
         let mut last_message: Option<&Message> = None;
 
         loop {
+            if let Some(token) = &self.ct {
+                if token.is_cancelled() {
+                    break;
+                }
+            }
+
             if let Some(_) = last_message {
                 let target = MessagePagination::Before(last_message.unwrap().id);
                 let mut batch = self

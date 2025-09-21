@@ -23,7 +23,8 @@ pub struct Config {
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    use serenity::{ClientBuilder, GatewayIntents};
+    use serenity::{ChannelId, ClientBuilder, GatewayIntents};
+    use tokio_util::sync::CancellationToken;
 
     dotenvy::dotenv()?;
 
@@ -37,6 +38,8 @@ async fn main() -> Result<(), Error> {
         "Be aware that running a bot application on a user account is againt Discord TOS.\n",
         "Proceed at your own risk!!"
     ));
+
+    let cancel_token = CancellationToken::new();
 
     let intents = GatewayIntents::DIRECT_MESSAGES
         | GatewayIntents::GUILD_MESSAGES
@@ -53,6 +56,7 @@ async fn main() -> Result<(), Error> {
         tokio::signal::ctrl_c()
             .await
             .expect("Couldn't register ctrl+c");
+        cancel_token.cancel();
         shard_manager.shutdown_all().await;
     });
 
