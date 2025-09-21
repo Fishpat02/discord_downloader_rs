@@ -57,7 +57,10 @@ impl MessageLogger {
                     break;
                 }
             } else {
-                let mut batch = self.http.get_messages(channel.id(), None, Some(50)).await?;
+                let mut batch = self
+                    .http
+                    .get_messages(channel.id(), None, Some(100))
+                    .await?;
 
                 if batch.len() > 0 {
                     messages.append(&mut batch);
