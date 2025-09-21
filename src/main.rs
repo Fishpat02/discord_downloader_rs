@@ -23,7 +23,7 @@ pub struct Config {
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    use serenity::{ChannelId, ClientBuilder, GatewayIntents};
+    use serenity::{ClientBuilder, GatewayIntents};
     use tokio_util::sync::CancellationToken;
 
     dotenvy::dotenv()?;

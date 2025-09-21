@@ -17,7 +17,7 @@ pub struct MessageLogger {
 impl MessageLogger {
     #[allow(dead_code)]
     pub fn new(http: Arc<Http>, ct: Option<CancellationToken>) -> Self {
-        MessageLogger { http: http, ct: ct }
+        MessageLogger { http, ct }
     }
 
     #[allow(dead_code)]
@@ -25,11 +25,10 @@ impl MessageLogger {
         let mut channels = vec![];
 
         for id in ids {
-            if let Some(token) = &self.ct {
-                if token.is_cancelled() {
+            if let Some(token) = &self.ct
+                && token.is_cancelled() {
                     break;
                 }
-            }
 
             channels.push(self.http.get_channel(id).await?);
         }
@@ -43,13 +42,12 @@ impl MessageLogger {
         let mut last_message: Option<&Message> = None;
 
         loop {
-            if let Some(token) = &self.ct {
-                if token.is_cancelled() {
+            if let Some(token) = &self.ct
+                && token.is_cancelled() {
                     break;
                 }
-            }
 
-            if let Some(_) = last_message {
+            if last_message.is_some() {
                 let target = MessagePagination::Before(last_message.unwrap().id);
                 let mut batch = self
                     .http
@@ -76,7 +74,7 @@ impl MessageLogger {
                     .get_messages(channel.id(), None, Some(100))
                     .await?;
 
-                if batch.len() > 0 {
+                if !batch.is_empty() {
                     messages.append(&mut batch);
                     last_message = messages.last();
 
