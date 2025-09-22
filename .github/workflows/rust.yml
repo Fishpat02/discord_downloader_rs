@@ -1,0 +1,35 @@
+name: Rust
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        rust_toolchain: [stable, beta, nightly]
+
+    steps:
+    - uses: actions/checkout@v5
+    - name: Setup rust toolchain ${{ matrix.rust_toolchain }}
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: ${{ matrix.rust_toolchain }}
+    - name: Run cargo build (default)
+      uses: actions-rs/cargo@v1
+      with:
+        command: build
+    - name: Run cargo build (self-bot)
+      uses: actions-rs/cargo@v1
+      with:
+        command: build
+        args: --no-default-features --features "self-bot"
