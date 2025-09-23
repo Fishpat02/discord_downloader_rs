@@ -6,7 +6,6 @@ use serenity_self::all as serenity;
 
 use crate::Error;
 
-#[allow(dead_code)]
 pub async fn unregister() -> Result<(), Error> {
     use serenity::{ApplicationId, ClientBuilder, GatewayIntents, Http};
 

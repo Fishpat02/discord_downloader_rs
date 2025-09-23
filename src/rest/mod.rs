@@ -15,12 +15,10 @@ pub struct MessageLogger {
 }
 
 impl MessageLogger {
-    #[allow(dead_code)]
     pub fn new(http: Arc<Http>, ct: Option<CancellationToken>) -> Self {
         MessageLogger { http, ct }
     }
 
-    #[allow(dead_code)]
     pub async fn get_channels(&self, ids: Vec<ChannelId>) -> Result<Vec<Channel>, Error> {
         let mut channels = vec![];
 
@@ -36,7 +34,6 @@ impl MessageLogger {
         Ok(channels)
     }
 
-    #[allow(dead_code)]
     pub async fn get_messages_in_channel(&self, channel: Channel) -> Result<Vec<Message>, Error> {
         let mut messages = vec![];
         let mut last_message: Option<&Message> = None;
