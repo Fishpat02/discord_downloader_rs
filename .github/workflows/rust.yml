@@ -24,7 +24,11 @@ jobs:
         uses: hecrj/setup-rust-action@v2
         with:
           rust-version: ${{ matrix.rust_toolchain }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
       - name: Run build (default)
+        id: default
         run: cargo build
       - name: Run build (self-bot)
         run: cargo build --no-default-features --features "self-bot"
