@@ -2,9 +2,9 @@ name: Rust
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
-    branches: [ "main" ]
+    branches: ['main']
 
 env:
   CARGO_TERM_COLOR: always
@@ -19,17 +19,12 @@ jobs:
         rust_toolchain: [stable, beta, nightly]
 
     steps:
-    - uses: actions/checkout@v5
-    - name: Setup rust toolchain ${{ matrix.rust_toolchain }}
-      uses: actions-rs/toolchain@v1
-      with:
-        toolchain: ${{ matrix.rust_toolchain }}
-    - name: Run cargo build (default)
-      uses: actions-rs/cargo@v1
-      with:
-        command: build
-    - name: Run cargo build (self-bot)
-      uses: actions-rs/cargo@v1
-      with:
-        command: build
-        args: --no-default-features --features "self-bot"
+      - uses: actions/checkout@v5
+      - name: Setup rust toolchain ${{ matrix.rust_toolchain }}
+        uses: hecrj/setup-rust-action@v2
+        with:
+          rust-version: ${{ matrix.rust_toolchain }}
+      - name: Run build (default)
+        run: cargo build
+      - name: Run build (self-bot)
+        run: cargo build --no-default-features --features "self-bot"
