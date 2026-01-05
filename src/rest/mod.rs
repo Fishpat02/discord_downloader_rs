@@ -24,9 +24,10 @@ impl MessageLogger {
 
         for id in ids {
             if let Some(token) = &self.ct
-                && token.is_cancelled() {
-                    break;
-                }
+                && token.is_cancelled()
+            {
+                break;
+            }
 
             channels.push(self.http.get_channel(id).await?);
         }
@@ -40,9 +41,10 @@ impl MessageLogger {
 
         loop {
             if let Some(token) = &self.ct
-                && token.is_cancelled() {
-                    break;
-                }
+                && token.is_cancelled()
+            {
+                break;
+            }
 
             if last_message.is_some() {
                 let target = MessagePagination::Before(last_message.unwrap().id);
