@@ -91,4 +91,19 @@ impl MessageLogger {
 
         Ok(messages)
     }
+
+    pub fn extract_images(&self, message: Message) -> Result<Vec<String>, Error> {
+        let attachments = message.attachments;
+        let mut results = vec![];
+
+        for a in attachments {
+            results.push(format!(
+                "{}: {}",
+                a.filename,
+                a.content_type.unwrap_or(String::from("none"))
+            ));
+        }
+
+        Ok(results)
+    }
 }
